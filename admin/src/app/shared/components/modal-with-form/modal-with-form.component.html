@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>{{modalData.title}}</h2>
+<mat-dialog-content class="mat-typography">
+    <form [ngClass]="formData.classes" [formGroup]="myForm">
+        <fieldset *ngFor="let group of formData.groups" [ngClass]="group.classes">
+            <legend *ngIf="group.name">{{group.name}}</legend>
+
+            <div *ngFor="let row of group.rows" [ngClass]="row.classes">
+                <div [ngClass]="formItem.classes.columns" *ngFor="let formItem of row.fields">
+                    <app-dynamic-form-field [formItem]="formItem"></app-dynamic-form-field>
+                </div>
+            </div>
+        </fieldset>
+
+        <pre>
+            {{myForm.value | json}}
+        </pre>
+
+        isValid: {{myForm.valid}}
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="close()">{{modalData.closeBtn}}</button>
+    <button mat-button (click)="save()">{{modalData.actionBtn}}</button>
+</mat-dialog-actions>

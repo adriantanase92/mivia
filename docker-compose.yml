@@ -1,0 +1,61 @@
+version: '3.9'
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:5
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: mivia    
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin    
+    ports:
+      - 27017:27017
+    volumes:
+      - ./server/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongodb-data:/data/db
+      - mongodb-log:/var/log/mongodb
+
+  server:
+    build:
+      context: mivia-server
+      dockerfile: Dockerfile    
+    ports:
+      - 3000:3000
+    volumes:
+      - ./server/src:/server/src
+    environment:
+      MONGO_DB_URI: mongodb://admin:admin@mongodb:27017/mivia
+      MONGO_DB_USERNAME: admin
+      MONGO_DB_PASSWORD: Uqv5kHD0nxhR3SPn
+      MONGO_DB_NAME: mivia
+      MONGO_DB_HOSTNAME: cluster0.htkv6iv.mongodb.net    
+      APP_ENV: development
+      APP_NAME: "MiVia Server App"
+      APP_URL: http://localhost:3000
+      APP_PORT: 3000
+      APP_ADMIN_URL: http://localhost:4200
+      ADMIN_USER_PASSWORD: 56oo9TC3T90inS*U
+      ALL_USERS_PASSWORD: 8GvK&4C8*pMpVaP4
+      JWT_SECRET: Cs3ejW3OhQqRZzUV
+      JWT_EXPIRATION_TIME: 28800      
+    depends_on:
+      - mongodb
+
+  admin:
+    build:
+      context: mivia-admin
+      dockerfile: Dockerfile
+    ports:
+      - 4200:4200
+    environment:
+      BACKEND_API_URL: http://localhost:3000
+    volumes:
+      - ./admin/src:/admin/src
+    depends_on:
+      - server      
+
+volumes:
+  mongodb-data:
+    driver: local
+  mongodb-log:
+    driver: local
