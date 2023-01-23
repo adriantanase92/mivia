@@ -17,7 +17,7 @@ services:
 
   server:
     build:
-      context: mivia-server
+      context: server
       dockerfile: Dockerfile    
     ports:
       - 3000:3000
@@ -43,7 +43,7 @@ services:
 
   admin:
     build:
-      context: mivia-admin
+      context: admin
       dockerfile: Dockerfile
     ports:
       - 4200:4200
