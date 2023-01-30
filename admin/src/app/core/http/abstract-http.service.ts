@@ -23,7 +23,7 @@ export class AbstractHttpService {
     createOne<T>(collation: string, data: T): Observable<any> {
         return this.http
             .post(`${this.baseUrl}/${collation}`, JSON.stringify(data), {observe: "response"})
-            .pipe(map((res: any) => res.status));
+            .pipe(map((res) => res.status));
     }
 
     updateOne(collation: string, data: any): Observable<any> {

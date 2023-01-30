@@ -10,7 +10,7 @@ import {ListItemsData} from "src/app/shared/components/list-items/list-items.int
 export class UsersService {
     colattion = "users";
 
-    getUserFormGroups(): DynamicFormGroup[] {
+    getUserFormGroups(roleValue: string): DynamicFormGroup[] {
         return [
             {
                 name: "Base information:",
@@ -70,7 +70,7 @@ export class UsersService {
                                     patient: "Patient",
                                     unclassified: "Unclassified"
                                 },
-                                value: "doctor",
+                                value: roleValue,
                                 validators: [Validators.required],
                                 icon: {
                                     name: "assignment_ind",
@@ -338,7 +338,7 @@ export class UsersService {
                 actionBtn: "Save",
                 form: {
                     classes: "form",
-                    groups: [...this.getUserFormGroups()]
+                    groups: [...this.getUserFormGroups("doctor")]
                 }
             }
         };
@@ -391,7 +391,7 @@ export class UsersService {
                 actionBtn: "Save",
                 form: {
                     classes: "form",
-                    groups: [...this.getUserFormGroups()]
+                    groups: [...this.getUserFormGroups("patient")]
                 }
             }
         };
@@ -444,7 +444,7 @@ export class UsersService {
                 actionBtn: "Save",
                 form: {
                     classes: "form",
-                    groups: [...this.getUserFormGroups()]
+                    groups: [...this.getUserFormGroups("staff")]
                 }
             }
         };
